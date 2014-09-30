@@ -1,0 +1,10 @@
+Gem::Specification.new do |s|
+  s.name        = "syslogger"
+  s.version     = "0.0.1"
+  s.date        = "2014-09-30"
+  s.summary     = "Logging via syslog"
+  s.authors     = ["EasyPost"]
+  s.email       = "dev@easypost.com"
+  s.files       = ["lib/syslogger.rb"]
+  s.homepage    = "http://github.com/EasyPost/syslogger"
+end
