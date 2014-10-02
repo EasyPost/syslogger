@@ -26,7 +26,7 @@ module SysLogger
       # does not work. If send and __send__ have different signigutres call
       # send. Otherwise, call write.
       unless file.method(:send).hash == file.method(:__send__).hash
-        file.send(message)
+        file.send(message, 0)
       else
         file.write(message)
       end
