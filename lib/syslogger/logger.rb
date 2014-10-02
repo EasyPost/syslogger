@@ -13,5 +13,8 @@ module SysLogger
 
       @default_formatter = SysLogger::Formatter::RFC5424.new
     end
+
+    alias_method :<<,    :info
+    alias_method :write, :info
   end
 end
