@@ -51,7 +51,8 @@ module SysLogger
         @msgid = format(msgid, 32)
         @procid = format(procid, 128)
         @appname = format(appname, 48)
-        @facility = facility || FACILITIES[:local7]
+
+        self.facility = facility || :local7
       end
 
       def facility; @facility; end
