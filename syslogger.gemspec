@@ -1,5 +1,5 @@
 Gem::Specification.new do |spec|
-  spec.name          = "syslogger"
+  spec.name          = "syslogger5424"
   spec.version       = "0.1.0"
   spec.date          = "2014-09-30"
   spec.summary       = "Logging via syslog"

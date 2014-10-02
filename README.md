@@ -1,6 +1,6 @@
 # SysLogger
 
-Ruby Logger for interacting with syslog.
+Ruby Logger for interacting with syslog using RFC 5424 format.
 
 ## Description
 
@@ -9,13 +9,13 @@ Ruby Logger for interacting with syslog.
 ## Install
 
 ```
-gem install syslogger
+gem install syslogger5424
 ```
 
 or add the following line to Gemfile:
 
 ```
-gem 'syslogger'
+gem 'syslogger5424'
 ```
 
 and run `bundle install` from your shell.
