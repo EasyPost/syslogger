@@ -1,9 +1,6 @@
-require 'socket'
-require 'logger'
-
-require 'syslogger/logger'
-require 'syslogger/io'
-require 'syslogger/formatter/rfc5424'
+require "syslogger/logger"
+require "syslogger/io"
+require "syslogger/formatter/rfc5424"
 
 module SysLogger
   extend self

@@ -1,5 +1,7 @@
+require "mono_logger"
+
 module SysLogger
-  class Logger < ::Logger
+  class Logger < MonoLogger
     attr_reader :logdev, :default_formatter
 
     def initialize(logdev = nil, shift_age = 0, shift_size = 1048576, &block)
