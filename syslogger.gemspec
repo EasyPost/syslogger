@@ -2,7 +2,7 @@ Gem::Specification.new do |spec|
   spec.name          = "syslogger5424"
   spec.version       = "0.2.0"
   spec.date          = "2014-09-30"
-  spec.summary       = "Logging via syslog"
+  spec.summary       = "Logging via syslog using RFC 5424 format"
   spec.authors       = ["EasyPost"]
   spec.email         = "support@easypost.com"
   spec.homepage      = "http://github.com/EasyPost/syslogger"
@@ -15,6 +15,4 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-its"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "pry-nav"
 end
