@@ -9,6 +9,6 @@ describe SysLogger::Logger do
   it "logs exceptions" do
     subject.error StandardError.new("foobar")
     expect(io.string).to match(
-      /<187>1.* - - - \[meta x-group=".*"\] foobar \(StandardError\)/)
+      /<187>1.* - #{Process.pid} - \[meta x-group=".*"\] foobar \(StandardError\)/)
   end
 end

@@ -49,7 +49,7 @@ module SysLogger
         super()
 
         @msgid = format(msgid, 32)
-        @procid = format(procid, 128)
+        @procid = format(procid || Process.pid.to_s, 128)
         @appname = format(appname, 48)
 
         self.facility = facility || :local7
