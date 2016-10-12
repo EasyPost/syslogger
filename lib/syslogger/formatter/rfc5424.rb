@@ -45,10 +45,6 @@ module SysLogger
         :debug  => 7
       }
 
-      def initialize
-        super()
-      end
-
       def initialize(appname = nil, procid = nil, msgid = nil, facility = nil)
         super()
 
