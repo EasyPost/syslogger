@@ -1,6 +1,7 @@
 require "syslogger/logger"
 require "syslogger/io"
 require "syslogger/formatter/rfc5424"
+require "syslogger/creators"
 
 module SysLogger
   extend self
