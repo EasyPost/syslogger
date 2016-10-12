@@ -49,13 +49,8 @@ log.info("Hello\nWorld")
 By default, `SysLogger` will write to `$stdout`. To override, either pass a device to the constructor or a block that can be called to create the device.
 
 ```ruby
-require 'socket'
 require 'syslogger'
 
-io = StringIO.new
-log = SysLogger.new(io)
-log.info("Hello\nWorld")
-
-log = SysLogger.new { UNIXSocket.new('/tmp/sock') }
+log = SysLogger.new(&SysLogger::Creators::unix_dgram_socket("/path/to/datagram/socket"))
 log.info("Hello\nWorld")
 ```
