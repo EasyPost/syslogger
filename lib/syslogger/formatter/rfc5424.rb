@@ -3,7 +3,7 @@ module SysLogger
     class RFC5424 < ::Logger::Formatter
       attr_reader :msgid, :procid, :appname
 
-      Format = "<%s>1 %s %s %s %s %s [meta x-group=\"%s\"] %s\n"
+      Format = "<%s>1 %s %s %s %s %s %s %s\n"
 
       FACILITIES = {
         :kern     => 0,
@@ -45,44 +45,103 @@ module SysLogger
         :debug  => 7
       }
 
+      def initialize
+        super()
+      end
+
       def initialize(appname = nil, procid = nil, msgid = nil, facility = nil)
         super()
 
-        @msgid = format(msgid, 32)
-        @procid = format(procid || Process.pid.to_s, 128)
-        @appname = format(appname, 48)
+        @counter = 0
+
+        @hostname = Socket.gethostname
+        @msgid = format_field(msgid, 32)
+        @procid = procid
+        @procid = format_field(procid || Process.pid.to_s, 128)
+        @appname = format_field(appname, 48)
 
         self.facility = facility || :local7
       end
 
-      def facility; @facility; end
+      def facility
+        @facility
+      end
+
       def facility=(f)
         @facility = FACILITIES[f.to_s.downcase.to_sym] || @facility
       end
 
       def call(severity, datetime, progname, message)
         severity = SEVERITIES[severity.to_s.downcase.to_sym] || SEVERITIES[:info]
-        pri = (facility * 8) + severity
+        pri = (facility << 3) | severity
 
         # Since we're using RFC5424 format, it makes more sense to use the
         # passed in progname as the msgid rather than changing the appname when
         # a block was received to generate the message.
-        message_id = progname.nil? ? msgid : format(progname, 32)
+        message_id = progname.nil? ? msgid : format_field(progname, 32)
 
-        x_group = rand(99999999)
+        @counter = (@counter + 1) % 65536
+
+        structured_data = {
+          "meta" => {
+            "x-group" => rand(99999999),
+            "x-counter" => @counter
+          }
+        }
+
+        sd = format_sdata(structured_data)
+
         lines = msg2str(message).split(/\r?\n/).reject(&:empty?).map do |line|
-          Format % [pri, datetime.strftime("%FT%T.%6N%:z"), Socket.gethostname,
-                    appname, procid, message_id, x_group, line]
+          Format % [pri, datetime.strftime("%FT%T.%6N%:z"), @hostname,
+                    @appname, format_field(@procid || Process.pid.to_s, 128),
+                    message_id, sd, line]
         end
 
         lines.join
       end
 
-      def format(text, max_length)
+      private
+      def format_field(text, max_length)
         if text
           text[0..max_length].gsub(/\s+/, '')
         else
           '-'
+        end
+      end
+
+      def format_sdata(sdata)
+        if sdata.empty?
+          '-'
+        end
+        # TODO clean up of SD-NAMe and PARAM-VALUE is kind of brute force
+        #      here, could be done better per RFC5424
+        r = []
+        sdata.each { |sid, hash|
+          s = []
+          s.push(sid.to_s.gsub(/[^-\w]/, ""))
+          hash.each { |n, v|
+            paramname = n.to_s.gsub(/[^-\w]/, "")
+            paramvalue = v.to_s.gsub(/[\]"=]/, "")
+            s.push("#{paramname}=\"#{paramvalue}\"")
+          }
+          r.push("["+s.join(" ")+"]")
+        }
+        rx = []
+        r.each { |x|
+          rx.push("[#{x}]")
+        }
+        r.join("")
+      end
+
+      def msg2str(msg)
+        case msg
+          when ::String
+            msg
+          when ::Exception
+            "#{ msg.message } (#{ msg.class })\n" <<
+              (msg.backtrace || []).join("\n")
+          else
+            msg.inspect
         end
       end
     end

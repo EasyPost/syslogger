@@ -16,7 +16,18 @@ module SysLogger
       @default_formatter = SysLogger::Formatter::RFC5424.new
     end
 
-    alias_method :<<,    :info
-    alias_method :write, :info
+    def <<(msg)
+      # Logger's version of this just dumps the input without formatting. there
+      # is never a case where we don't want to format the content to the syslog
+      # server properly.
+      # default to a serverity of info.
+      msg.split(/\r?\n/).each { |line|
+          if line then
+              self.info(line)
+          end
+      }
+    end
+
+    alias_method :write, :<<
   end
 end

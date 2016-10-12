@@ -3,10 +3,18 @@ module SysLogger
     def initialize(&file_creator)
       @file_creator = file_creator
       @file = @file_creator.call
+      @connect_pid = Process.pid
     end
 
     def file
-      @file.closed? ? @file = @file_creator.call : @file
+      # re-connect on fork
+      if Process.pid != @connect_pid
+        @file.close
+      end
+      if @file.nil? || @file.closed?
+        @file = @file_creator.call
+      end
+      @file
     end
 
     def write(message)
