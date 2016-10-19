@@ -54,6 +54,7 @@ module SysLogger
         @msgid = format_field(msgid, 32)
         @procid = procid
         @procid = format_field(procid || Process.pid.to_s, 128)
+        appname = appname || ENV["SYSLOG_APPNAME"]
         @appname = format_field(appname, 48)
 
         self.facility = facility || :local7
