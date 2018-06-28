@@ -2,6 +2,8 @@
 
 Ruby Logger for interacting with syslog using RFC 5424 format.
 
+[![Build Status](https://travis-ci.org/EasyPost/syslogger.svg?branch=master)](https://travis-ci.org/EasyPost/syslogger)
+
 ## Description
 
 `syslogger` is a wrapper around the standard ruby `Logger` for logging via syslog. Messages passed to `syslogger` are formatted by default with [RFC 5424](http://tools.ietf.org/html/rfc5424). It allows for communication through sockets or files.
