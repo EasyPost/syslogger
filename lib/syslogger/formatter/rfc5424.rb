@@ -76,27 +76,33 @@ module SysLogger
         # a block was received to generate the message.
         message_id = progname.nil? ? msgid : format_field(progname, 32)
 
-        @counter = (@counter + 1) % 65536
-
         structured_data = {
           "meta" => {
-            "x-group" => rand(99999999),
+            "x-group" => gen_xgroup,
             "x-counter" => @counter
           }
         }
 
-        sd = format_sdata(structured_data)
-
         lines = msg2str(message).split(/\r?\n/).reject(&:empty?).map do |line|
+          @counter = (@counter + 1) % 65536
+          structured_data["meta"]["x-counter"] = @counter
+          sd = format_sdata(structured_data)
           Format % [pri, datetime.strftime("%FT%T.%6N%:z"), @hostname,
                     @appname, format_field(@procid || Process.pid.to_s, 128),
                     message_id, sd, line]
         end
-
-        lines.join
+        if lines.size == 1
+          lines[0]
+        else
+          lines
+        end
       end
 
       private
+      def gen_xgroup
+        rand(99999999)
+      end
+
       def format_field(text, max_length)
         if text
           text[0..max_length].gsub(/\s+/, '')

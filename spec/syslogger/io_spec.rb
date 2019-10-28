@@ -16,6 +16,10 @@ describe SysLogger::IO do
       expect(io.string).to eq "foobar"
     end
 
+    it "handles array messages" do
+      subject.write(["foo", "bar"])
+      expect(io.string).to eq "foobar"
+    end
   end
 
   describe "unix_dgram_socket" do
