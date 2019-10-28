@@ -34,7 +34,13 @@ describe SysLogger::IO do
     end
 
     it "works after an exception" do
-      expect(io).to receive(:write).at_least(:once).and_raise(IOError.new)
+      count = 0
+      expect(io).to receive(:write).at_least(:once) do
+        count += 1
+        if count == 1
+          raise IOError
+        end
+      end
       subject.write('foobar')
       subject.flush
     end
