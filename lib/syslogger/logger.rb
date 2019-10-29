@@ -22,9 +22,9 @@ module SysLogger
       # server properly.
       # default to a serverity of info.
       msg.split(/\r?\n/).each { |line|
-          if line then
-              self.info(line)
-          end
+        if line then
+          self.info(line)
+        end
       }
     end
 
