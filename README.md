@@ -53,6 +53,6 @@ By default, `SysLogger` will write to `$stdout`. To override, either pass a devi
 ```ruby
 require 'syslogger'
 
-log = SysLogger.new(&SysLogger::Creators::unix_dgram_socket("/path/to/datagram/socket"))
+log = SysLogger.new(SysLogger::Creators::unix_dgram_socket("/path/to/datagram/socket"))
 log.info("Hello\nWorld")
 ```
