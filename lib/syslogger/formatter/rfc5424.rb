@@ -1,7 +1,8 @@
 module SysLogger
   module Formatter
     class RFC5424 < ::Logger::Formatter
-      attr_reader :msgid, :procid, :appname
+      attr_reader :msgid
+      attr_accessor :procid, :appname
 
       Format = "<%s>1 %s %s %s %s %s %s %s\n"
 
@@ -53,8 +54,7 @@ module SysLogger
         @hostname = Socket.gethostname
         @msgid = format_field(msgid, 32)
         @procid = procid
-        @procid = format_field(procid || Process.pid.to_s, 128)
-        @appname = format_field(appname, 48)
+        @appname = appname
 
         self.facility = facility || :local7
       end
@@ -88,7 +88,7 @@ module SysLogger
           structured_data["meta"]["x-counter"] = @counter
           sd = format_sdata(structured_data)
           Format % [pri, datetime.strftime("%FT%T.%6N%:z"), @hostname,
-                    @appname, format_field(@procid || Process.pid.to_s, 128),
+                    format_field(@appname, 48), format_field(@procid || Process.pid.to_s, 128),
                     message_id, sd, line]
         end
         if lines.size == 1

@@ -16,6 +16,22 @@ module SysLogger
       @default_formatter = SysLogger::Formatter::RFC5424.new
     end
 
+    def appname=(appname)
+      @default_formatter.appname = appname
+    end
+
+    def appname
+      @default_formatter.appname
+    end
+
+    def procid=(procid)
+      @default_formatter.procid = procid
+    end
+
+    def procid
+      @default_formatter.appname
+    end
+
     def <<(msg)
       # Logger's version of this just dumps the input without formatting. there
       # is never a case where we don't want to format the content to the syslog
