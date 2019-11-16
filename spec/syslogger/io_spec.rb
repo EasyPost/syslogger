@@ -15,10 +15,34 @@ describe SysLogger::IO do
       subject.write("foobar")
       expect(io.string).to eq "foobar"
     end
+  end
+
+  describe "#flush" do
+    it "works without writing first" do
+      subject.flush
+    end
 
     it "handles array messages" do
       subject.write(["foo", "bar"])
       expect(io.string).to eq "foobar"
+    end
+
+    it "works after writing" do
+      subject.write('foobar')
+      subject.flush
+      expect(io.string).to eq "foobar"
+    end
+
+    it "works after an exception" do
+      count = 0
+      expect(io).to receive(:write).at_least(:once) do
+        count += 1
+        if count == 1
+          raise IOError
+        end
+      end
+      subject.write('foobar')
+      subject.flush
     end
   end
 

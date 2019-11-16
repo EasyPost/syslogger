@@ -2,7 +2,7 @@ module SysLogger
   class IO
     def initialize(&file_creator)
       @file_creator = file_creator
-      @file = @file_creator.call
+      @file = nil
       @connect_pid = Process.pid
     end
 
@@ -41,11 +41,16 @@ module SysLogger
     end
 
     def flush
-      @file.flush
+      if !@file.nil?
+        @file.flush
+      end
     end
 
     def close
-      @file.close
+      if !@file.nil?
+        @file.close
+        @file = nil
+      end
     end
   end
 end
