@@ -1,3 +1,8 @@
+0.5.2
+-----
+- Fix a typo in the Unix STREAM-mode socket connector
+- Add more tests!
+
 0.5.1
 -----
 - Add a new API for setting the `appname` and `procid` of the formatter directly from the Logger instance
