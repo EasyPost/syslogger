@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "syslogger5424"
-  spec.version       = "0.5.2"
+  spec.version       = "0.5.3"
   spec.date          = "2019-11-15"
   spec.summary       = "Logging via syslog using RFC 5424 format"
   spec.description   = "Logger subclass to log to syslog using the RFC 5424 format, with support for STREAM- and DGRAM-mode domain sockets"

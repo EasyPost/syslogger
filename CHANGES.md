@@ -1,3 +1,7 @@
+0.5.3
+-----
+- Don't connect on initialization
+
 0.5.2
 -----
 - Fix a typo in the Unix STREAM-mode socket connector
