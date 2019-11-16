@@ -13,7 +13,7 @@ module SysLogger
 
     def self.unix_stream_socket(socket_path)
       proc {
-        UnixSocket.new(socket_path)
+        UNIXSocket.new(socket_path)
       }
     end
   end
