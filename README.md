@@ -2,7 +2,7 @@
 
 Ruby Logger for interacting with syslog using RFC 5424 format.
 
-[![Build Status](https://travis-ci.org/EasyPost/syslogger.svg?branch=master)](https://travis-ci.org/EasyPost/syslogger)
+[![Build Status](https://travis-ci.com/EasyPost/syslogger.svg?branch=master)](https://travis-ci.com/EasyPost/syslogger)
 [![Gem Version](https://badge.fury.io/rb/syslogger5424.svg)](https://badge.fury.io/rb/syslogger5424)
 
 ## Description
